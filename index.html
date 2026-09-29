@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Diagnóstico de Meta Ads · Inmobiliaria Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1D1D1F; --sec:#7C7C82; --faint:#C1C1C7; --line:#E5E5EA;
+  --gold:#9A7B2F; --gold-bg:#FBF7EC; --gold-mid:#DCCFAE; --soft:#F5F5F7;
+  color-scheme:light;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#fff;color:var(--ink);font-family:'Inter',-apple-system,sans-serif;font-size:19px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.w{max-width:900px;margin:0 auto;padding:0 32px}
+.wide{max-width:1280px;margin:0 auto;padding:0 32px}
+section{padding:130px 0}
+
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--sec);margin-bottom:28px}
+h1{font-size:clamp(46px,8.5vw,98px);font-weight:600;letter-spacing:-.04em;line-height:1.01}
+h2{font-size:clamp(32px,5.2vw,58px);font-weight:600;letter-spacing:-.032em;line-height:1.1;max-width:21ch}
+h2.long{max-width:27ch}
+p.lead{font-size:clamp(20px,2.4vw,26px);line-height:1.5;color:var(--sec);max-width:42ch;margin-top:28px}
+p.body{font-size:19px;line-height:1.7;color:var(--sec);max-width:58ch;margin-top:26px}
+strong{font-weight:600;color:var(--ink)}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.84em;background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:1px 7px;color:var(--ink);white-space:nowrap}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .85s cubic-bezier(.22,.9,.28,1),transform .85s cubic-bezier(.22,.9,.28,1)}
+.rv.in{opacity:1;transform:none}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.fig{margin-top:40px}
+.fig.scroll{overflow-x:auto}
+.fig.scroll svg{min-width:840px}
+
+/* bloque de cada gráfico: título, resumen arriba, notas abajo */
+.charttitle{font-size:23px;font-weight:600;letter-spacing:-.022em;margin-top:84px}
+.charttitle.first{margin-top:64px}
+.sum{margin-top:18px;border-left:2px solid var(--gold);padding:4px 0 4px 22px;max-width:62ch}
+.sum .k{font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.sum p{font-size:20px;line-height:1.5;font-weight:500;color:var(--ink);letter-spacing:-.01em}
+.notes{margin-top:34px;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+.notes>div{padding:22px 28px 0 0}
+.notes>div+div{border-left:1px solid var(--line);padding-left:28px}
+.notes .k{font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--sec);margin-bottom:10px}
+.notes p{font-size:16px;line-height:1.6;color:var(--sec)}
+.notes p strong{color:var(--ink)}
+.notes p code{display:inline-block;margin-top:8px}
+.segs{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+button.seg{min-height:42px;padding:0 16px;border:1px solid var(--line);background:#fff;border-radius:999px;font-family:'Inter',sans-serif;font-size:14.5px;font-weight:500;color:var(--sec);cursor:pointer;touch-action:manipulation;transition:border-color .2s,color .2s,background .2s}
+button.seg:hover{color:var(--ink);border-color:var(--faint)}
+button.seg[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+/* portada */
+.hero{padding-top:120px;padding-bottom:0}
+.hero .meta{margin-top:58px;display:flex;gap:52px;flex-wrap:wrap;font-size:14px;color:var(--sec)}
+.hero .meta b{display:block;color:var(--ink);font-weight:500;margin-top:5px;font-size:15px}
+.recall{display:flex;flex-wrap:wrap;margin-top:74px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.recall>div{flex:1;min-width:200px;padding:38px 32px 38px 0}
+.recall>div+div{border-left:1px solid var(--line);padding-left:32px}
+.recall .n{font-size:clamp(36px,5.4vw,56px);font-weight:600;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.recall .n.gold{color:var(--gold)}
+.recall .l{font-size:15px;color:var(--sec);margin-top:13px;line-height:1.45}
+
+/* en una mirada */
+.glance{margin-top:64px;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.glance>div{padding:38px 30px 10px 0}
+.glance>div+div{border-left:1px solid var(--line);padding-left:30px}
+.glance .k{font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px}
+.glance .k.a{color:var(--gold)}
+.glance .k.b{color:var(--ink)}
+.glance .k.c{color:var(--sec)}
+.glance h3{font-size:22px;font-weight:600;letter-spacing:-.022em;line-height:1.25;margin-bottom:12px}
+.glance p{font-size:16px;color:var(--sec);line-height:1.6}
+
+/* bloques numerados */
+.blocks{margin-top:40px;border-top:1px solid var(--line)}
+.bl{display:grid;grid-template-columns:56px 1fr;gap:30px;padding:42px 0;border-bottom:1px solid var(--line);align-items:start}
+.bl .k{font-size:14px;font-weight:600;color:var(--sec);padding-top:8px;font-variant-numeric:tabular-nums}
+.bl h3{font-size:26px;font-weight:600;letter-spacing:-.025em;margin-bottom:14px}
+.bl p{font-size:17.5px;color:var(--sec);line-height:1.6;max-width:60ch}
+.bl .who{margin-top:22px;display:grid;grid-template-columns:1fr 1.4fr;gap:26px;font-size:13.5px;color:var(--sec);max-width:62ch}
+.bl .who b{display:block;color:var(--ink);font-weight:500;margin-top:5px;font-size:15px;line-height:1.5}
+.bl .who .goal b{color:var(--gold)}
+
+/* filas de dato */
+.kpis{margin-top:56px;border-top:1px solid var(--line)}
+.kpi{display:grid;grid-template-columns:1fr auto;gap:26px;align-items:baseline;padding:24px 0;border-bottom:1px solid var(--line)}
+.kpi .t{font-size:20px;font-weight:500}
+.kpi .t small{display:block;font-size:15px;font-weight:400;color:var(--sec);margin-top:5px;max-width:52ch}
+.kpi .m{font-size:22px;text-align:right;font-variant-numeric:tabular-nums;font-weight:500;white-space:nowrap}
+.kpi .m small{display:block;font-size:14px;color:var(--sec);font-weight:400;margin-top:4px}
+.kpi.hi .m{color:var(--gold);font-weight:600}
+.tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px dashed var(--gold);border-radius:999px;padding:4px 11px}
+
+/* vistas cortas */
+.views{margin-top:56px}
+.vw{display:grid;grid-template-columns:52px 1fr;gap:28px;padding:32px 0;border-top:1px solid var(--line);align-items:start}
+.vw .k{font-size:14px;font-weight:600;color:var(--sec);padding-top:5px}
+.vw h4{font-size:22px;font-weight:600;letter-spacing:-.022em;margin-bottom:10px;line-height:1.25}
+.vw p{font-size:17px;color:var(--sec);line-height:1.6;max-width:60ch}
+
+/* dos columnas */
+.twocol{margin-top:64px;display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid var(--line)}
+.twocol>div{padding:38px 34px 30px 0}
+.twocol>div+div{border-left:1px solid var(--line);padding-left:34px}
+.twocol .k{font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px}
+.twocol .k.ok{color:var(--gold)}
+.twocol .k.op{color:var(--sec)}
+.twocol ul{list-style:none}
+.twocol li{font-size:17px;color:var(--sec);line-height:1.5;padding:11px 0 11px 24px;position:relative;border-bottom:1px solid var(--line)}
+.twocol li:last-child{border-bottom:0}
+.twocol li::before{content:"";position:absolute;left:0;top:18px;width:9px;height:9px;border-radius:50%}
+.twocol .ok-l li::before{background:var(--gold)}
+.twocol .op-l li::before{border:1px dashed var(--gold)}
+
+/* cita */
+.claim{margin-top:80px;border-top:2px solid var(--ink);padding-top:36px}
+.claim p{font-size:clamp(25px,3.5vw,38px);font-weight:600;letter-spacing:-.03em;line-height:1.24;max-width:32ch}
+.claim p em{font-style:normal;color:var(--gold)}
+.claim .src{font-size:15.5px;color:var(--sec);margin-top:22px;line-height:1.65;max-width:62ch}
+
+/* ficha de propiedades */
+.ficha{margin-top:70px;border:2px solid var(--gold);background:var(--gold-bg);border-radius:16px;padding:44px}
+.ficha .k{font-size:12.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:22px}
+.ficha .intro{font-size:19px;line-height:1.6;color:#5C4F31;max-width:56ch}
+.ficha .tbl{margin-top:30px;overflow-x:auto}
+.ficha table{width:100%;min-width:640px;border-collapse:collapse;font-size:16px}
+.ficha th{text-align:left;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);padding:0 20px 13px 0;border-bottom:1px solid var(--gold-mid);white-space:nowrap}
+.ficha td{padding:15px 20px 15px 0;border-bottom:1px solid rgba(154,123,47,.2);color:#4A4034;white-space:nowrap}
+.ficha tbody tr:last-child td{border-bottom:0}
+.ficha td.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:600;color:var(--gold)}
+.ficha .pie{margin-top:26px;font-size:15.5px;line-height:1.6;color:#6B5C36;max-width:64ch}
+
+/* caja dorada */
+.box{margin-top:70px;border:2px solid var(--gold);background:var(--gold-bg);border-radius:16px;padding:44px}
+.box .k{font-size:12.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.box .amount{font-size:clamp(42px,6.6vw,74px);font-weight:600;letter-spacing:-.05em;line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.box .terms{margin-top:22px;font-size:18px;color:#6B5C36;line-height:1.6;max-width:54ch}
+
+/* código */
+.sku{margin-top:64px;border:1px solid var(--line);border-radius:16px;padding:40px 36px}
+.flab{display:block;font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--sec);margin-bottom:14px}
+.skugrid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:26px}
+select{width:100%;border:0;border-bottom:1px solid var(--faint);background:transparent;font-family:'Inter',sans-serif;font-size:18px;font-weight:500;color:var(--ink);padding:0 24px 9px 0;cursor:pointer;appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,var(--sec) 50%),linear-gradient(135deg,var(--sec) 50%,transparent 50%);
+  background-position:calc(100% - 9px) 10px,calc(100% - 4px) 10px;background-size:5px 5px;background-repeat:no-repeat}
+select:focus{outline:none;border-bottom-color:var(--ink)}
+input[type=number]{flex:1;min-width:0;border:0;background:transparent;font-family:'Inter',sans-serif;font-size:18px;font-weight:500;color:var(--ink);-moz-appearance:textfield}
+input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]:focus{outline:none}
+.skures{margin-top:38px;border-top:1px solid var(--line);padding-top:30px}
+.skures .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:clamp(22px,3.4vw,40px);font-weight:500;letter-spacing:-.02em;color:var(--gold)}
+.skures p{font-size:15.5px;color:var(--sec);margin-top:20px;line-height:1.6;max-width:66ch}
+
+.tip{position:absolute;pointer-events:none;opacity:0;transform:translate(-50%,-114%);background:var(--ink);color:#fff;border-radius:9px;padding:11px 14px;font-size:14px;line-height:1.55;white-space:nowrap;transition:opacity .12s;z-index:9}
+.tip b{display:block;font-size:15px;font-weight:600;margin-bottom:4px}
+.tip .hl{color:#E6D3A0;font-weight:600}
+.holder{position:relative}
+
+footer{border-top:1px solid var(--line);padding:44px 0 90px;font-size:13.5px;color:var(--sec);line-height:1.9;margin-top:100px}
+footer p{max-width:78ch;margin-bottom:14px}
+
+@media (max-width:860px){
+  section{padding:92px 0}
+  .recall>div+div,.glance>div+div{border-left:0;border-top:1px solid var(--line);padding-left:0}
+  .glance{grid-template-columns:1fr}
+  .glance>div{padding-right:0;padding-bottom:30px}
+  .notes{grid-template-columns:1fr}
+  .notes>div+div{border-left:0;border-top:1px solid var(--line);padding-left:0;margin-top:20px}
+  .notes>div{padding-right:0}
+  .bl,.vw{grid-template-columns:1fr;gap:10px}
+  .bl .who{grid-template-columns:1fr}
+  .twocol{grid-template-columns:1fr}
+  .twocol>div+div{border-left:0;border-top:1px solid var(--line);padding-left:0}
+  .twocol>div{padding-right:0}
+  .box{padding:32px 26px}
+  .ficha{padding:30px 24px}
+  .ficha .intro{font-size:17px}
+  .skugrid{grid-template-columns:1fr 1fr}
+  .sku{padding:32px 26px}
+  body{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- ═════════════════════ PORTADA -->
+<section class="hero">
+  <div class="w">
+    <div class="eyebrow rv">Diagnóstico de Meta Ads · Septiembre 2026</div>
+    <h1 class="rv">Dónde estamos<br>y hacia dónde crecer.</h1>
+    <p class="lead rv">Dieciocho meses de publicidad leídos de principio a fin: qué está funcionando, qué conviene repetir y cuáles son las oportunidades para dar el siguiente paso.</p>
+    <div class="meta rv">
+      <div>Preparado para<b>Inmobiliaria Concept</b></div>
+      <div>Elaborado por<b>Danilo Pastor</b></div>
+      <div>Período analizado<b>25 abr 2025 — 17 sep 2026</b></div>
+    </div>
+    <div class="recall rv">
+      <div><div class="n">3 646</div><div class="l">Personas que escribieron a la inmobiliaria desde un aviso</div></div>
+      <div><div class="n">S/ 2.30</div><div class="l">Costo promedio de cada conversación con un comprador</div></div>
+      <div><div class="n gold">S/ 0.43</div><div class="l">El mejor costo logrado: la referencia a replicar</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════ EN UNA MIRADA -->
+<section>
+  <div class="w">
+    <div class="eyebrow rv">En una mirada</div>
+    <h2 class="rv">La publicidad ya funciona. El siguiente paso es aprender de ella.</h2>
+    <div class="glance rv">
+      <div>
+        <div class="k a">Lo que funciona</div>
+        <h3>Abre conversaciones a bajo costo.</h3>
+        <p>S/ 2.30 por cada comprador que escribe. Cuando el aviso lleva el precio en el titular, baja a menos de S/ 1.30.</p>
+      </div>
+      <div>
+        <div class="k b">Dónde está el margen</div>
+        <h3>En lo que pasa después del primer mensaje.</h3>
+        <p>38 de cada 100 personas siguen la conversación. Subir esa cifra rinde más que cualquier ajuste de presupuesto.</p>
+      </div>
+      <div>
+        <div class="k c">El primer paso</div>
+        <h3>Anotar para poder repetir.</h3>
+        <p>Un código por campaña y un registro de en qué termina cada conversación. Con eso, lo que funcionó se puede volver a hacer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════ 01 · EL RECORRIDO -->
+<section>
+  <div class="w">
+    <div class="eyebrow rv">01 · Qué se mide hoy</div>
+    <h2 class="long rv">Hoy se mide el primer paso del recorrido. Los tres siguientes son la oportunidad.</h2>
+    <p class="body rv">Una operación inmobiliaria tiene cuatro momentos: alguien escribe, resulta ser un interesado real, visita la propiedad y firma. La plataforma de publicidad registra el primero con mucha precisión. Los otros tres ocurren en el trato directo con cada asesor, y hoy no se anotan en un lugar común.</p>
+    <div class="charttitle first rv">El recorrido de un interesado</div>
+    <div class="sum rv"><div class="k">Resumen</div><p>Hoy se mide el primer paso del recorrido. Los tres siguientes se pueden empezar a medir con una hoja común.</p></div>
+  </div>
+  <div class="wide fig scroll rv" id="wrap-cadena"><svg id="cadena" viewBox="0 0 1180 410" role="img" aria-label="Recorrido de cuatro pasos: conversación abierta, interesado real, visita y firma. Solo el primero se mide hoy."></svg></div>
+  <div class="w">
+    <div class="notes rv">
+      <div><div class="k">Métrica analizada</div><p><strong>Conversación abierta:</strong> una persona distinta que escribió por chat dentro de los 7 días después de hacer clic en un aviso. No es todavía un interesado confirmado.<br><code>messaging_conversation_started_7d</code></p></div>
+      <div><div class="k">Lo que se lee</div><p>La caja dorada es lo que hoy se mide. Las cajas con borde punteado son los pasos que se pueden empezar a medir.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════ 02 · LA INVERSIÓN -->
+<section>
+  <div class="w">
+    <div class="eyebrow rv">02 · La inversión y lo que trajo</div>
+    <h2 class="rv">Cada conversación con un comprador cuesta S/ 2.30.</h2>
+    <p class="body rv">En dieciocho meses la cuenta invirtió S/ 7 238.36 y abrió 3 646 conversaciones. El promedio general da S/ 1.99 cada una, pero ese número mezcla a compradores con otros públicos. Al separar las 94 campañas de 2026 por su propósito, el costo real de una conversación con un comprador de inmueble queda en <strong>S/ 2.30</strong>.</p>
+    <div class="kpis rv">
+      <div class="kpi"><span class="t">Inversión en la cuenta<small>S/ 224 al mes en 2025 y S/ 614 al mes en 2026. El uso del canal casi se triplicó.</small></span><span class="m">S/ 7 238.36</span></div>
+      <div class="kpi"><span class="t">Conversaciones abiertas<small>Personas distintas que escribieron después de ver un aviso.</small></span><span class="m">3 646</span></div>
+      <div class="kpi hi"><span class="t">Costo por conversación de comprador<small>Separando reclutamiento, alquiler, traspaso y captación de propietarios.</small></span><span class="m">S/ 2.30</span></div>
+      <div class="kpi"><span class="t">Personas alcanzadas<small>Vieron algún aviso al menos una vez; en promedio, 2.18 veces cada una.</small></span><span class="m">280 714</span></div>
+      <div class="kpi"><span class="t">Operaciones cerradas por campaña<small>Todavía no se registran. Es la primera oportunidad de la hoja de ruta.</small></span><span class="m"><span class="tag">Por construir</span></span></div>
+    </div>
+
+    <div class="charttitle rv">Para qué se usó la publicidad en 2026</div>
+    <div class="sum rv"><div class="k">Resumen</div><p>Nueve de cada diez soles fueron a venta. Y el reclutamiento de asesores resultó ser el canal más eficiente de toda la cuenta.</p></div>
+    <div class="segs rv" role="group" aria-label="Vista del gráfico de tipos">
+      <button class="seg" data-tipo="gasto" aria-pressed="true">Dónde se invirtió</button>
+      <button class="seg" data-tipo="conv" aria-pressed="false">Cuántas conversaciones trajo</button>
+      <button class="seg" data-tipo="costo" aria-pressed="false">Cuánto costó cada una</button>
+    </div>
+  </div>
+  <div class="wide fig scroll rv holder" id="wrap-tipos"><svg id="tipos" viewBox="0 0 1180 380" role="img" aria-label="Cinco tipos de campaña de 2026 comparados"></svg><div class="tip" id="tip-tipos"></div></div>
+  <div class="w">
+    <div class="notes rv">
+      <div><div class="k">Métrica analizada</div><p><strong>Inversión</strong> de cada tipo de campaña y <strong>costo por conversación</strong>, que es la inversión dividida entre las conversaciones que trajo.<br><code>spend</code></p></div>
+      <div><div class="k">Lo que se lee</div><p>Los botones cambian la vista. La barra negra es venta; la dorada, reclutamiento. Pase el cursor por cada fila para ver todas sus cifras.</p></div>
+    </div>
+    <p class="body rv">Las conversaciones más económicas son las de <strong>reclutamiento de asesores, a S/ 0.59</strong>: la empresa encontró 195 candidatos por S/ 115.32. Es un canal de crecimiento eficiente que conviene medir por separado.</p>
+    <p class="body rv">Una precisión para leer bien las cifras: el alquiler trae conversaciones a S/ 0.80 y la venta a S/ 2.30. Pero la comisión de un alquiler es el primer mes de renta, compartido entre la empresa y el asesor, mientras que la de una venta es un porcentaje del valor de la propiedad. <strong>La conversación más barata no es necesariamente la más valiosa</strong>: el costo siempre se lee junto a lo que deja la operación.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════ 03 · EL LETRERO -->
+<section>
+  <div class="w">
+    <div class="eyebrow rv">03 · Lo que mejor funciona</div>
+    <h2 class="long rv">El precio en el titular funciona como el letrero en la fachada.</h2>
+    <p class="body rv">Un letrero con el precio a la vista hace que toque el timbre quien puede comprar. Un letrero sin precio atrae también a quien solo pasaba. En esta cuenta, los avisos con precio en el titular lograron conversaciones hasta <strong>52 veces más económicas</strong> que los que no lo tenían.</p>
+    <div class="charttitle rv">Interés del aviso contra costo de cada conversación</div>
+    <div class="sum rv"><div class="k">Resumen</div><p>Los dos avisos con precio en el titular caen en la zona ideal: mucho interés y bajo costo. Los tres sin precio quedan lejos de ella.</p></div>
+  </div>
+  <div class="wide fig scroll rv holder" id="wrap-letrero"><svg id="letrero" viewBox="0 0 1180 560" role="img" aria-label="Cinco avisos: a mayor interés, menor costo por conversación"></svg><div class="tip" id="tip-letrero"></div></div>
+  <div class="w">
+    <div class="notes rv">
+      <div><div class="k">Métrica analizada</div><p><strong>CTR:</strong> de cada 100 personas que vieron el aviso, cuántas hicieron clic. Mide si el aviso despierta interés. Se cruza con el costo por conversación.<br><code>ctr</code></p></div>
+      <div><div class="k">Lo que se lee</div><p>Más a la derecha, más interés. Más abajo, más económico. La escala vertical avanza por saltos —S/ 0.50, 1, 2, 5, 10, 20— para que quepan avisos muy distintos en el mismo gráfico.</p></div>
+    </div>
+    <p class="body rv">Producto de rango medio con el precio a la vista: <strong>menos de S/ 1.30</strong> por conversación. Mensaje general sin propiedad ni precio: <strong>S/ 2.91</strong>. Propiedad de alto rango sin precio: <strong>entre S/ 6 y S/ 22</strong>.</p>
+    <div class="claim rv">
+      <p>Las propiedades pasan. <em>La fórmula se queda.</em></p>
+      <div class="src">Precio visible, distrito, tipo de propiedad y rango medio. Un aviso que funcionó no se vuelve a publicar, porque esa casa probablemente ya se vendió. Lo que se reutiliza es el criterio, en la próxima captación. Y para reutilizarlo con confianza, conviene dejar anotado qué funcionó.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════ 04 · MES A MES -->
+<section>
+  <div class="w">
+    <div class="eyebrow rv">04 · Cómo evolucionó</div>
+    <h2 class="rv">Dieciocho meses en tres etapas.</h2>
+    <p class="body rv">La cuenta tuvo un arranque de prueba, un tramo de muy buen rendimiento entre agosto de 2025 y febrero de 2026, y una etapa reciente más variable. <strong>El mejor tramo demuestra lo que la cuenta puede lograr</strong>: S/ 1.69 por conversación, con 1 966 conversaciones en siete meses.</p>
+    <div class="charttitle rv">Inversión mensual y rendimiento</div>
+    <div class="sum rv"><div class="k">Resumen</div><p>El rendimiento no sigue a la inversión: meses con presupuestos parecidos rindieron muy distinto. El mejor tramo marca lo que la cuenta puede lograr.</p></div>
+    <div class="segs rv" role="group" aria-label="Métrica del gráfico inferior">
+      <button class="seg" data-linea="costo" aria-pressed="true">Costo por conversación</button>
+      <button class="seg" data-linea="conv" aria-pressed="false">Conversaciones del mes</button>
+      <button class="seg" data-linea="ctr" aria-pressed="false">CTR · interés del aviso</button>
+    </div>
+  </div>
+  <div class="wide fig scroll rv holder" id="wrap-meses"><svg id="meses" viewBox="0 0 1180 730" role="img" aria-label="Arriba, inversión mensual en columnas. Abajo, la métrica elegida en línea. De abril de 2025 a septiembre de 2026."></svg><div class="tip" id="tip-meses"></div></div>
+  <div class="w">
+    <div class="notes rv">
+      <div><div class="k">Métrica analizada</div><p>Arriba, la <strong>inversión de cada mes</strong>. Abajo, la métrica elegida con los botones: costo por conversación, conversaciones del mes o CTR.<br><code>spend</code> <code>ctr</code></p></div>
+      <div><div class="k">Lo que se lee</div><p id="lee-meses">Son dos gráficos con los mismos meses, cada uno con su propia escala. Lo que está en la misma columna vertical es el mismo mes. La línea punteada dorada es el promedio.</p></div>
+    </div>
+    <p class="body rv">Lo que explica la diferencia entre meses no es cuánto se invirtió, sino <strong>cuánto interés despertó el aviso</strong>. En los 13 meses con inversión superior a S/ 250, todos los meses con CTR sobre 6 % costaron S/ 2.04 o menos por conversación. Los meses en que el aviso se mostró a mucha gente pero pocos hicieron clic fueron también los más costosos: <strong>el alcance por sí solo no produce conversaciones</strong>. Es la palanca más directa que tiene la cuenta, y no cuesta dinero moverla.</p>
+
+    </div>
+</section>
+
+<!-- ═════════════════════ 05 · CUÁNDO -->
+<section>
+  <div class="w">
+    <div class="eyebrow rv">05 · Quién escribe y cuándo</div>
+    <h2 class="rv">El comprador escribe de noche.</h2>
+    <p class="body rv">En los últimos 90 días llegaron 746 conversaciones. La demanda sube durante el día, alcanza su punto más alto a las <strong>8pm</strong> y se mantiene hasta las 11pm. Es alguien que trabaja y consulta al final de su jornada.</p>
+    <div class="charttitle rv">Conversaciones por hora del día</div>
+    <div class="sum rv"><div class="k">Resumen</div><p>El 45 % de las consultas llega entre las 7pm y las 9am. El pico del día es a las 8pm, con 57 conversaciones.</p></div>
+  </div>
+  <div class="wide fig scroll rv holder" id="wrap-horas"><svg id="horas" viewBox="0 0 1180 400" role="img" aria-label="Conversaciones por hora del día, con el pico a las 8pm"></svg><div class="tip" id="tip-horas"></div></div>
+  <div class="w">
+    <div class="notes rv">
+      <div><div class="k">Métrica analizada</div><p><strong>Hora de llegada</strong> de cada conversación, en hora de Lima, en los últimos 90 días.<br><code>hourly_stats</code></p></div>
+      <div><div class="k">Lo que se lee</div><p>Cada columna es una hora. Las franjas grises van de 7pm a 9am. Las columnas oscuras son las horas de más demanda y la dorada, el pico.</p></div>
+    </div>
+    <p class="body rv"><strong>Para qué sirve este dato.</strong> No es para prender y apagar los avisos por horario: las campañas rinden mejor corriendo todo el día, porque la plataforma aprende con cada resultado a quién mostrarlas. Sirve para saber cuándo es más probable que llegue una consulta y estar listos para responderla con calma y a tiempo.</p>
+
+    <div class="charttitle rv">Conversaciones por edad</div>
+    <div class="sum rv"><div class="k">Resumen</div><p>De 35 a 54 años concentra el 56 % de las conversaciones. Es el comprador principal de esta cartera.</p></div>
+  </div>
+  <div class="wide fig scroll rv holder" id="wrap-edades"><svg id="edades" viewBox="0 0 1180 322" role="img" aria-label="Conversaciones por tramo de edad"></svg><div class="tip" id="tip-edades"></div></div>
+  <div class="w">
+    <div class="notes rv">
+      <div><div class="k">Métrica analizada</div><p><strong>Edad</strong> declarada en su perfil por quienes escribieron, en los últimos 90 días.<br><code>age</code></p></div>
+      <div><div class="k">Lo que se lee</div><p>Las barras oscuras son los dos tramos que concentran la demanda. Al lado de cada barra, las conversaciones y su costo unitario.</p></div>
+    </div>
+    <p class="body rv">Desde los 45 años el interés por el aviso es el más alto, con CTR entre 6.4 % y 6.6 %, aunque cada conversación cuesta un poco más. De 18 a 24 años prácticamente no aparece, lo que es coherente con el tipo de producto.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════ 06 · EL MARGEN -->
+<section>
+  <div class="w">
+    <div class="eyebrow rv">06 · Dónde está el mayor margen</div>
+    <h2 class="long rv">El aviso abre la conversación. El resultado se define en el chat.</h2>
+    <p class="body rv">El aviso cumple su función cuando la persona escribe. Lo que ocurre después depende de la conversación: si la persona responde, si hace una segunda pregunta, si avanza hacia una visita. Meta registra cuántas personas siguen escribiendo en cada paso, y eso permite ver con precisión en qué momento se detiene el interés. El gráfico siguiente muestra ese recorrido.</p>
+    <div class="charttitle rv">Cuántas personas siguen la conversación</div>
+    <div class="sum rv"><div class="k">Resumen</div><p>De cada 100 personas que abren un chat, 38 escriben un segundo mensaje. Hay 2 062 conversaciones que empezaron y pueden continuar.</p></div>
+  </div>
+  <div class="wide fig scroll rv holder" id="wrap-embudo"><svg id="embudo" viewBox="0 0 1180 440" role="img" aria-label="Embudo de la conversación en cuatro pasos"></svg><div class="tip" id="tip-embudo"></div></div>
+  <div class="w">
+    <div class="notes rv">
+      <div><div class="k">Métrica analizada</div><p><strong>Profundidad de la conversación:</strong> cuántas personas contestaron una vez, mandaron un segundo mensaje y mandaron un tercero.<br><code>first_reply</code> <code>depth_2</code> <code>depth_3</code></p></div>
+      <div><div class="k">Lo que se lee</div><p>Cada barra está a escala del total de chats abiertos. El tramo punteado dorado es el espacio disponible para crecer.</p></div>
+    </div>
+    <p class="body rv">Hay dos explicaciones posibles para las conversaciones que no continúan: que el interesado solo estaba mirando, o que la primera respuesta no logró engancharlo. Hoy no se pueden distinguir, porque cada uno de los 17 asesores atiende a su manera.</p>
+    <div class="claim rv">
+      <p>Cada punto que suba el 38 % <em>vale más que cualquier aumento de presupuesto.</em></p>
+      <div class="src">Un criterio común para la primera respuesta —cuánto tardar y qué segunda pregunta hacer— convierte esta cifra en algo que se revisa y se mejora mes a mes. Es la oportunidad de mayor retorno de todo el diagnóstico.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════ 07 · EL PESO DE LA PAUTA -->
+<section>
+  <div class="w">
+    <div class="eyebrow rv">07 · Cuánto pesa la publicidad</div>
+    <h2 class="long rv">Anunciar es un gasto de la operación, como la tasación o el letrero.</h2>
+    <p class="body rv">En una operación de seis cifras, nadie duda en pagar una búsqueda registral, una tasación o un letrero. Son gastos pequeños frente a lo que la operación deja. La publicidad de una captación está en ese mismo renglón.</p>
+    <div class="kpis rv">
+      <div class="kpi"><span class="t">El mismo asesor capta y vende<small>Comisión total del 4 %. La empresa recibe la mitad.</small></span><span class="m">50 %<small>para la empresa</small></span></div>
+      <div class="kpi"><span class="t">Un asesor capta y otro vende<small>30 % para cada asesor y 40 % para la empresa.</small></span><span class="m">40 %<small>para la empresa</small></span></div>
+      <div class="kpi"><span class="t">Alquiler<small>El primer mes de renta, compartido entre la empresa y el asesor.</small></span><span class="m">1 mes<small>de renta</small></span></div>
+      <div class="kpi"><span class="t">Stock de constructora<small>La comisión la define cada desarrolladora.</small></span><span class="m">Variable</span></div>
+    </div>
+    <div class="claim rv">
+      <p>Una sola venta promedio <em>cubre toda la publicidad de dieciocho meses.</em></p>
+      <div class="src">Sobre una venta de S/ 500 000, la comisión del 4 % es S/ 20 000 y la empresa recibe S/ 10 000, o S/ 8 000 si dos asesores comparten la operación. En cualquiera de los dos casos supera los S/ 7 238.36 invertidos en toda la cuenta. Y un aviso de captación de S/ 100 equivale al 1 % de lo que la empresa recibe en esa venta.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════ 08 · EL ORDEN -->
+<section>
+  <div class="w">
+    <div class="eyebrow rv">08 · La oportunidad de fondo</div>
+    <h2 class="long rv">Cada propiedad tiene su partida registral. La publicidad puede tener la suya.</h2>
+    <p class="body rv">La cartera está ordenada: cada inmueble tiene partida, metraje y ficha. La publicidad de esas mismas propiedades todavía no tiene un código equivalente. Las campañas se nombran a mano, cada una a su manera, y eso hace que hoy no se puedan agrupar por propiedad, por asesor ni por tipo de operación.</p>
+    <div class="charttitle rv">Las 94 campañas de 2026</div>
+    <div class="sum rv"><div class="k">Resumen</div><p>25 campañas comparten nombre con otra. Son el 23 % de la inversión del año, y hoy no se pueden distinguir entre sí.</p></div>
+  </div>
+  <div class="wide fig scroll rv holder" id="wrap-dup"><svg id="dup" viewBox="0 0 1180 210" role="img" aria-label="94 campañas: 25 comparten nombre en 11 grupos"></svg><div class="tip" id="tip-dup"></div></div>
+  <div class="w">
+    <div class="notes rv">
+      <div><div class="k">Métrica analizada</div><p><strong>Nombre de la campaña:</strong> la única etiqueta con la que hoy se identifica cada campaña en la cuenta.<br><code>campaign_name</code></p></div>
+      <div><div class="k">Lo que se lee</div><p>Cada cuadro es una campaña. Los de borde dorado punteado repiten nombre con otra, agrupados; los blancos son las 69 restantes. Pase el cursor por un grupo para ver su nombre.</p></div>
+    </div>
+
+    <div class="claim rv">
+      <p>Un ejemplo concreto: tres campañas con el mismo nombre, <em>el mismo mes</em>.</p>
+      <div class="src">«¿Tu familia ya necesita un espacio propio?» corrió tres veces en paralelo en agosto de 2026: S/ 42.44 con 19 conversaciones, S/ 63.34 con 23 y S/ 74.72 con 20. Juntas, 62 conversaciones a S/ 2.91. Unificadas en una sola, la plataforma habría concentrado el aprendizaje y, muy probablemente, bajado el costo.</div>
+    </div>
+
+    <div class="eyebrow rv" style="margin-top:80px">Lo que se gana con un código</div>
+    <div class="views rv" style="margin-top:0">
+      <div class="vw"><div class="k">01</div><div><h4>Se detecta a tiempo.</h4><p>Una campaña repetida o un aviso que no rinde se ve en la primera semana, no al revisar el año.</p></div></div>
+      <div class="vw"><div class="k">02</div><div><h4>El presupuesto se concentra.</h4><p>Una campaña por propiedad acumula resultados en un solo lugar, y la plataforma aprende más rápido a quién mostrarla.</p></div></div>
+      <div class="vw"><div class="k">03</div><div><h4>Se aprende y se repite.</h4><p>Se puede comparar qué titular, qué distrito y qué tipo de propiedad rinden mejor, y llevar ese criterio a la siguiente captación.</p></div></div>
+    </div>
+
+    <p class="body rv">Y un matiz importante: repetir una campaña no siempre es un error. La casa de San Miguel también corrió como dos campañas con el mismo nombre, y fueron el mejor resultado de los dieciocho meses, a S/ 0.43 y S/ 0.44 por conversación. El código no prohíbe repetir: permite <strong>saber cuándo repetir funcionó</strong>.</p>
+
+    <div class="sku rv">
+      <span class="flab">Así se ve el código · pruébelo</span>
+      <div class="skugrid">
+        <div>
+          <label class="flab" for="sku-op">Operación</label>
+          <select id="sku-op">
+            <option value="VTA">VTA · venta</option>
+            <option value="ALQ">ALQ · alquiler</option>
+            <option value="CAP">CAP · captación</option>
+            <option value="RECL">RECL · reclutamiento</option>
+            <option value="CONST">CONST · constructora</option>
+          </select>
+        </div>
+        <div>
+          <label class="flab" for="sku-tipo">Tipo</label>
+          <select id="sku-tipo">
+            <option value="CASA">CASA</option><option value="DEPA">DEPA</option>
+            <option value="OFI">OFI · oficina</option><option value="TERR">TERR · terreno</option>
+            <option value="LOC">LOC · local</option>
+          </select>
+        </div>
+        <div>
+          <label class="flab" for="sku-prop">Propiedad</label>
+          <div style="display:flex;align-items:baseline;gap:4px;border-bottom:1px solid var(--faint);padding-bottom:9px">
+            <span style="font-size:18px;color:var(--sec)">P</span>
+            <input type="number" id="sku-prop" value="142" min="1" max="9999" step="1">
+          </div>
+        </div>
+        <div>
+          <label class="flab" for="sku-ag">Asesor</label>
+          <select id="sku-ag"></select>
+        </div>
+      </div>
+      <div class="skures">
+        <span class="flab">Nombre de la campaña</span>
+        <div class="code" id="sku-code">VTA-CASA-P142-A07</div>
+        <p>Cuatro bloques en mayúsculas, con guiones, sin emojis ni tildes. Se escribe en cinco segundos y se puede dictar por teléfono. El nombre de cada <strong>aviso</strong> lleva además una palabra, PRECIO o SINPRECIO, para confirmar en dos meses el hallazgo del letrero.</p>
+      </div>
+    </div>
+
+    <div class="ficha rv">
+      <div class="k">La ficha que conecta la publicidad con la cartera</div>
+      <p class="intro">Cada propiedad ya tiene su ficha completa con el asesor y el broker. Lo que falta es una lista corta que comparta el código con la campaña. Propuesta de campos:</p>
+      <div class="tbl">
+        <table>
+          <thead><tr><th>Código</th><th>Distrito</th><th>Precio</th><th>Captó</th><th>Exclusiva</th><th>Financió el aviso</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">P142</td><td>San Miguel</td><td>USD 118 000</td><td class="mono">A07</td><td>Sí</td><td>Empresa y asesor</td></tr>
+            <tr><td class="mono">P143</td><td>San Isidro</td><td>USD 78 000</td><td class="mono">A03</td><td>Sí</td><td>Empresa y asesor</td></tr>
+            <tr><td class="mono">P144</td><td>Surquillo</td><td>S/ 515 000</td><td class="mono">A11</td><td>No</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="pie">Los campos se definen con la empresa; estos son los mínimos para cruzar lo que muestra Meta con lo que hay en la cartera. El tipo de inmueble no hace falta, porque ya va en el código de la campaña. Los guiones marcan lo que hoy no está registrado.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════ 09 · EL BALANCE -->
+<section>
+  <div class="w">
+    <div class="eyebrow rv">09 · El balance</div>
+    <h2 class="rv">Lo que ya se sabe y lo que se puede empezar a medir.</h2>
+    <div class="twocol rv">
+      <div>
+        <div class="k ok">Lo que ya se sabe</div>
+        <ul class="ok-l">
+          <li>Cuánto se invirtió y cuándo</li>
+          <li>Con qué aviso y con qué titular</li>
+          <li>Cuánta gente lo vio y cuánta escribió</li>
+          <li>A qué hora llegan las consultas</li>
+          <li>De qué edad son quienes escriben</li>
+          <li>Qué tipo de mensaje rinde mejor</li>
+        </ul>
+      </div>
+      <div>
+        <div class="k op">Lo que se puede empezar a medir</div>
+        <ul class="op-l">
+          <li>Qué propiedad corresponde a cada aviso</li>
+          <li>Qué asesor atiende cada campaña</li>
+          <li>Cuántos de los 17 asesores usan el canal</li>
+          <li>Cuántas consultas recibe cada asesor</li>
+          <li>En qué termina cada conversación</li>
+          <li>Qué se vendió, en cuánto tiempo y a qué precio</li>
+          <li>Cuánto aporta la empresa y cuánto el asesor</li>
+          <li>La antigüedad de cada asesor en la firma</li>
+        </ul>
+      </div>
+    </div>
+    <p class="body rv">La columna de la izquierda viene de la plataforma y ya está disponible. La de la derecha se construye desde la empresa, y se parece mucho a la bitácora de captación y seguimiento que cualquier casa de corretaje lleva: quién trajo el contacto, quién lo atendió, cuándo visitó y en qué quedó.</p>
+    <div class="claim rv">
+      <p>La publicidad ya hace su parte: abre 3 646 conversaciones a un costo bajo. <em>El siguiente paso es saber qué pasa con cada una.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════ 10 · HOJA DE RUTA -->
+<section>
+  <div class="w">
+    <div class="eyebrow rv">10 · Hoja de ruta</div>
+    <h2 class="long rv">Siete oportunidades de mejora, en tres tiempos. Ninguna pide más presupuesto.</h2>
+    <p class="body rv">El orden importa: lo que se instala primero permite medir todo lo demás. Cada oportunidad lleva quién la ejecuta y la meta que indica que funcionó.</p>
+
+    <div class="eyebrow rv" style="margin-top:76px;color:var(--gold)">Primer tiempo · empezar a anotar</div>
+    <div class="blocks rv">
+      <div class="bl"><div class="k">01</div><div>
+        <h3>Codificar las campañas</h3>
+        <p>El código de cuatro bloques en cada campaña, la palabra PRECIO o SINPRECIO en cada aviso, y la lista corta de propiedades que comparte ese mismo código.</p>
+        <div class="who"><div>Ejecuta<b>Quien opera la publicidad</b></div><div class="goal">Meta<b>Poder decir cuántas propiedades se anunciaron en el mes.</b></div></div>
+      </div></div>
+      <div class="bl"><div class="k">02</div><div>
+        <h3>Registrar en qué termina cada consulta</h3>
+        <p>Cuatro estados por conversación —abierta, interesado real, visita, cerrada— con la campaña de origen y el asesor que la atendió. Es la base de todo lo demás.</p>
+        <div class="who"><div>Ejecuta<b>Los asesores, con el respaldo de la dirección</b></div><div class="goal">Meta<b>Contar con un número de operaciones cerradas por campaña.</b></div></div>
+      </div></div>
+    </div>
+
+    <div class="eyebrow rv" style="margin-top:76px;color:var(--gold)">Segundo tiempo · afinar la operación</div>
+    <div class="blocks rv">
+      <div class="bl"><div class="k">03</div><div>
+        <h3>Precio y distrito en el titular</h3>
+        <p>Llevar a cada nueva captación la fórmula que produjo el mejor resultado de los dieciocho meses.</p>
+        <div class="who"><div>Ejecuta<b>Quien opera la publicidad</b></div><div class="goal">Meta<b>Avisos con precio visible por debajo de S/ 1.50 por conversación.</b></div></div>
+      </div></div>
+      <div class="bl"><div class="k">04</div><div>
+        <h3>Un criterio común de primera respuesta</h3>
+        <p>Un tiempo de respuesta acordado y una segunda pregunta antes de enviar el precio. Es la oportunidad de mayor retorno.</p>
+        <div class="who"><div>Ejecuta<b>Los asesores; la dirección define el criterio</b></div><div class="goal">Meta<b>Subir el 38 % de conversaciones que llegan al segundo mensaje.</b></div></div>
+      </div></div>
+      <div class="bl"><div class="k">05</div><div>
+        <h3>Una campaña por propiedad, corriendo completa</h3>
+        <p>Concentrar la inversión en una sola campaña por inmueble y dejarla correr todo el día, para que la plataforma aprenda más rápido.</p>
+        <div class="who"><div>Ejecuta<b>Quien opera la publicidad</b></div><div class="goal">Meta<b>Ningún nombre repetido en el mes.</b></div></div>
+      </div></div>
+      <div class="bl"><div class="k">06</div><div>
+        <h3>Medir el reclutamiento por separado</h3>
+        <p>Las conversaciones de candidatos son el canal más eficiente de la cuenta. Medidas aparte, muestran su valor y dejan limpio el costo por comprador.</p>
+        <div class="who"><div>Ejecuta<b>Quien opera la publicidad</b></div><div class="goal">Meta<b>Leer el costo por comprador sin mezcla con otros públicos.</b></div></div>
+      </div></div>
+    </div>
+
+    <div class="eyebrow rv" style="margin-top:76px;color:var(--gold)">Tercer tiempo · completar el mapa</div>
+    <div class="blocks rv">
+      <div class="bl"><div class="k">07</div><div>
+        <h3>Conocer al equipo en el canal</h3>
+        <p>Quiénes de los 17 asesores usan la publicidad, desde cuándo están en la firma, qué captaron y qué vendieron. Con eso se puede acompañar, capacitar y repartir cartera con criterio.</p>
+        <div class="who"><div>Ejecuta<b>La dirección</b></div><div class="goal">Meta<b>Saber cuántos asesores usan el canal y con qué resultado.</b></div></div>
+      </div></div>
+    </div>
+
+    <p class="body rv" style="margin-top:56px;font-size:16px">Las fechas se definen en conjunto, según cuándo se apruebe el registro y cuándo el equipo adopte el código. Como los asesores también invierten en sus avisos, el primer y el segundo tiempo funcionan mejor acordados con ellos.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="w">
+    <p><strong>Fuente.</strong> Cuenta publicitaria activa de la inmobiliaria, con datos tomados directamente de la plataforma. La segunda cuenta vinculada al mismo acceso no registra actividad en el período. Moneda: soles. Las cifras cuadran contra el total invertido de la cuenta.</p>
+    <p><strong>Notas de método.</strong> La separación por tipo de operación se hizo leyendo los nombres de las 94 campañas de 2026, porque todavía no existe un código que permita agruparlas automáticamente. Las tres etapas del historial son una lectura del análisis, basada en los cambios de inversión y de costo. Los datos por hora y por edad corresponden a los últimos 90 días, para reflejar la operación actual. La inversión de la cuenta incluye lo aportado por la empresa y por los asesores; el reparto entre ambos todavía no se registra. El reparto del primer mes de renta en alquiler se menciona sin cifras.</p>
+    <p>Diagnóstico de Meta Ads preparado por Danilo Pastor para Inmobiliaria Concept · Septiembre 2026<br>Documento de uso interno.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+var NS='http://www.w3.org/2000/svg';
+var INK='#1D1D1F',SEC='#7C7C82',FAINT='#C1C1C7',LINE='#E5E5EA',GOLD='#9A7B2F',GOLDBG='#FBF7EC',GOLDMID='#DCCFAE',SOFT='#F5F5F7',BAR='#D9D9DE';
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function el(t,a){var n=document.createElementNS(NS,t);a=a||{};for(var k in a){if(a[k]!==''&&a[k]!==null&&a[k]!==undefined)n.setAttribute(k,a[k]);}return n;}
+function tx(x,y,s,a){a=a||{};var o={x:x,y:y,'font-family':'Inter, sans-serif','font-size':14,fill:SEC};for(var k in a)o[k]=a[k];var t=el('text',o);t.textContent=s;return t;}
+function halo(o){o.stroke='#fff';o['stroke-width']=5;o['paint-order']='stroke';o['stroke-linejoin']='round';return o;}
+function fmt(n,d){d=(d===undefined)?0:d;var s=Math.abs(n).toFixed(d),p=s.split('.'),e=p[0],o='',c=0;for(var i=e.length-1;i>=0;i--){o=e.charAt(i)+o;c++;if(c%3===0&&i>0)o=' '+o;}return (n<0?'-':'')+o+(p[1]?'.'+p[1]:'');}
+function sol(n,d){return 'S/ '+fmt(n,(d===undefined)?(Math.abs(n)<1000?2:0):d);}
+function fade(g,i,step){if(reduce)return;g.setAttribute('opacity',0);g.style.transition='opacity .5s ease '+(i*step)+'ms';requestAnimationFrame(function(){requestAnimationFrame(function(){g.setAttribute('opacity',1);});});}
+function axisLabel(svg,x,y,s,anchor){svg.appendChild(tx(x,y,s,{'font-size':12.5,'font-weight':600,'letter-spacing':1.5,fill:SEC,'text-anchor':anchor||'start'}));}
+
+/* datos */
+var MESES=[['abr 2025',90.17,21,4.29,4.79],['may 2025',97.90,22,4.45,6.56],['jun 2025',82.74,44,1.88,5.53],
+['jul 2025',44.36,30,1.48,6.23],['ago 2025',272.53,181,1.51,9.83],['sep 2025',366.92,241,1.52,8.57],
+['oct 2025',371.66,182,2.04,7.73],['nov 2025',273.24,105,2.60,3.30],['dic 2025',421.03,229,1.84,6.33],
+['ene 2026',1011.12,697,1.45,7.92],['feb 2026',611.31,331,1.85,7.32],['mar 2026',674.81,235,2.87,4.52],
+['abr 2026',635.42,125,5.08,2.14],['may 2026',606.07,426,1.42,4.78],['jun 2026',466.85,61,7.65,2.43],
+['jul 2026',281.42,75,3.75,2.06],['ago 2026',698.50,585,1.19,6.41],['sep 2026',232.31,56,4.15,3.99]];
+var TIPOS=[['Venta de inmueble y terreno',4677.74,2036,2.30],['Alquiler',189.28,236,0.80],
+['Captación de propietarios',154.87,39,3.97],['Reclutamiento de asesores',115.32,195,0.59],['Traspaso de negocio',88.83,88,1.01]];
+var LETRERO=[
+ ['Casa 3 niveles en San Miguel · $118 000',15.42,0.43,1,'Con precio en el titular'],
+ ['Oficina en San Isidro · US$ 78 000',7.26,1.27,1,'Con precio en el titular'],
+ ['¿Tu familia ya necesita un espacio propio?',3.46,2.91,0,'Mensaje general, sin precio'],
+ ['Departamento amoblado · San Isidro',3.44,5.89,0,'Alto rango, sin precio'],
+ ['Vive el estilo de Miraflores desde las alturas',0.93,22.43,0,'Alto rango, sin precio']];
+var HORAS=[['12am',19,1.11],['1am',10,1.13],['2am',9,0.84],['3am',4,1.75],['4am',4,1.89],['5am',6,2.48],
+['6am',22,1.88],['7am',31,2.19],['8am',29,2.45],['9am',41,1.72],['10am',31,2.47],['11am',36,2.03],
+['12pm',41,2.56],['1pm',33,2.99],['2pm',45,1.74],['3pm',47,1.57],['4pm',51,1.73],['5pm',43,2.12],
+['6pm',40,2.35],['7pm',42,1.91],['8pm',57,1.15],['9pm',44,1.62],['10pm',28,2.01],['11pm',33,1.03]];
+var EDADES=[['18 a 24',24.34,13],['25 a 34',265.78,156],['35 a 44',437.47,253],['45 a 54',327.38,168],['55 a 64',221.72,105],['65 y más',129.57,51]];
+var EMB=[['Abrieron un chat',3646,'conversation_started_7d'],['Contestaron una vez',3434,'first_reply'],
+['Escribieron un segundo mensaje',1372,'depth_2'],['Escribieron un tercer mensaje',740,'depth_3']];
+var GRUPOS=[['¿Tu familia ya necesita un espacio propio?',3,180.50,62],['Casa 3 niveles en San Miguel',2,137.45,316],
+['¡Vive en Magdalena!',2,119.53,9],['Vive cerca a San Isidro desde S/ 515 mil',2,117.85,14],
+['¡Oportunidad única en Los Olivos!',3,105.68,46],['Vive donde todos quieren estar – Magdalena',2,96.21,17],
+['Traspaso cafetería en Barranco',3,88.83,88],['Casa en venta en San Isidro',2,88.54,74],
+['Dúplex de estreno en Surco',2,87.90,46],['Departamento en venta – Surquillo',2,87.00,60],['Nueva campaña de Ventas',2,86.38,53]];
+
+/* tooltip */
+function Tip(id){var t=document.getElementById(id),h=t.parentNode;return{
+  s:function(x,y,html){t.innerHTML=html;var r=h.getBoundingClientRect();
+    t.style.left=Math.max(110,Math.min(r.width-110,x-r.left))+'px';t.style.top=(y-r.top)+'px';t.style.opacity=1;},
+  h:function(){t.style.opacity=0;}};}
+function hov(node,T,html,onIn,onOut){
+  function sh(x,y){if(onIn)onIn();T.s(x,y,typeof html==='function'?html():html);}
+  function hd(){if(onOut)onOut();T.h();}
+  node.addEventListener('mouseenter',function(e){sh(e.clientX,e.clientY);});
+  node.addEventListener('mousemove',function(e){sh(e.clientX,e.clientY);});
+  node.addEventListener('mouseleave',hd);
+  node.addEventListener('touchstart',function(e){var t=e.touches[0];sh(t.clientX,t.clientY);},{passive:true});
+  node.addEventListener('touchend',hd,{passive:true});
+}
+
+/* 01 · recorrido */
+function cadena(){
+  var svg=document.getElementById('cadena');svg.innerHTML='';
+  var defs=el('defs');
+  [['ah',INK],['ah2',GOLD]].forEach(function(d){
+    var m=el('marker',{id:d[0],markerWidth:9,markerHeight:9,refX:7,refY:3.2,orient:'auto',markerUnits:'strokeWidth'});
+    m.appendChild(el('path',{d:'M0,0 L7,3.2 L0,6.4 Z',fill:d[1]}));defs.appendChild(m);
+  });
+  svg.appendChild(defs);
+  var N=[{t:'Conversación abierta',s:'la persona escribe\ndesde el aviso',ok:1,n:'3 646'},
+         {t:'Interesado real',s:'resulta ser alguien\nque puede comprar',n:'por medir'},
+         {t:'Visita',s:'va a ver\nla propiedad',n:'por medir'},
+         {t:'Firma',s:'se cierra\nla operación',n:'por medir'}];
+  var BW=240,BH=162,GAP=(1180-4*BW)/3,TOP=66;
+  N.forEach(function(n,i){
+    var x=i*(BW+GAP),g=el('g');
+    g.appendChild(el('rect',{x:x,y:TOP,width:BW,height:BH,rx:12,fill:n.ok?GOLDBG:'#fff',stroke:GOLD,'stroke-width':n.ok?2:1.4,'stroke-dasharray':n.ok?'':'6 5'}));
+    g.appendChild(tx(x+24,TOP+34,'PASO '+(i+1),{'font-size':12.5,'font-weight':600,'letter-spacing':1.8,fill:n.ok?GOLD:SEC}));
+    g.appendChild(tx(x+24,TOP+64,n.t,{'font-size':18.5,'font-weight':600,fill:INK}));
+    n.s.split('\n').forEach(function(l,k){g.appendChild(tx(x+24,TOP+90+k*20,l,{'font-size':15,fill:SEC}));});
+    g.appendChild(tx(x+24,TOP+BH-18,n.n,{'font-size':n.ok?23:15,'font-weight':600,fill:n.ok?GOLD:SEC}));
+    if(i<3)g.appendChild(el('line',{x1:x+BW+8,x2:x+BW+GAP-10,y1:TOP+BH/2,y2:TOP+BH/2,stroke:i===0?INK:GOLD,'stroke-width':1.6,'stroke-dasharray':i===0?'':'4 4','marker-end':i===0?'url(#ah)':'url(#ah2)'}));
+    fade(g,i,130);svg.appendChild(g);
+  });
+  svg.appendChild(el('line',{x1:BW/2,x2:BW/2,y1:TOP-8,y2:TOP-28,stroke:GOLD,'stroke-width':1.3}));
+  svg.appendChild(tx(BW/2,TOP-38,'SE MIDE HOY',{'text-anchor':'middle','font-size':13,fill:GOLD,'letter-spacing':2,'font-weight':600}));
+  var bx=BW+GAP,bw=1180-bx,yb=TOP+BH+34;
+  svg.appendChild(el('path',{d:'M '+bx+' '+yb+' L '+bx+' '+(yb+16)+' L '+(bx+bw)+' '+(yb+16)+' L '+(bx+bw)+' '+yb,fill:'none',stroke:GOLD,'stroke-width':1.6,'stroke-dasharray':'7 6'}));
+  svg.appendChild(tx(bx+bw/2,yb+56,'OPORTUNIDAD · POR EMPEZAR A MEDIR',{'text-anchor':'middle','font-size':13,fill:GOLD,'letter-spacing':2.2,'font-weight':600}));
+  svg.appendChild(tx(bx+bw/2,yb+84,'estos tres pasos ocurren en el trato con cada asesor y se pueden registrar con una hoja común',{'text-anchor':'middle','font-size':16,fill:SEC}));
+}
+
+/* 02 · tipos */
+var tipoSel='gasto',Ttipos;
+function tipos(){
+  var svg=document.getElementById('tipos');svg.innerHTML='';
+  var W=1180,LW=360,TOP=46,RW=W-LW-150,rowH=60,tot=0;
+  TIPOS.forEach(function(t){tot+=t[1];});
+  var C={
+    gasto:{max:1,val:function(t){return t[1]/tot;},out:function(t){return fmt(t[1]/tot*100,1)+' %';},axis:'PORCENTAJE DE LA INVERSIÓN DE 2026 · TOTAL S/ 5 226',ticks:[0,.25,.5,.75,1],tl:function(v){return fmt(v*100)+' %';}},
+    conv:{max:2400,val:function(t){return t[2];},out:function(t){return fmt(t[2]);},axis:'CONVERSACIONES ABIERTAS EN 2026 · TOTAL 2 594',ticks:[0,600,1200,1800,2400],tl:function(v){return fmt(v);}},
+    costo:{max:4,val:function(t){return t[3];},out:function(t){return sol(t[3],2);},axis:'SOLES POR CONVERSACIÓN · PROMEDIO DE LA CUENTA S/ 1.99',ticks:[0,1,2,3,4],tl:function(v){return 'S/ '+fmt(v);}}}[tipoSel];
+  axisLabel(svg,LW,18,C.axis);
+  var bottom=TOP+5*rowH;
+  C.ticks.forEach(function(v){
+    var x=LW+RW*(v/C.max);
+    svg.appendChild(el('line',{x1:x,x2:x,y1:TOP-8,y2:bottom-4,stroke:LINE,'stroke-width':1}));
+    svg.appendChild(tx(x,bottom+18,C.tl(v),{'text-anchor':'middle','font-size':13.5,fill:SEC}));
+  });
+  var rows=TIPOS.slice();
+  if(tipoSel!=='gasto')rows.sort(function(a,b){return C.val(b)-C.val(a);});
+  rows.forEach(function(t,i){
+    var y=TOP+i*rowH,bw=Math.max(3,RW*(C.val(t)/C.max));
+    var col=(t[0]==='Venta de inmueble y terreno')?INK:(t[0]==='Reclutamiento de asesores')?GOLD:BAR;
+    var g=el('g');
+    g.appendChild(tx(0,y+22,t[0],{'font-size':18,'font-weight':500,fill:INK}));
+    g.appendChild(tx(0,y+42,fmt(t[2])+' conversaciones · '+sol(t[1],2),{'font-size':14,fill:SEC}));
+    g.appendChild(el('rect',{x:LW,y:y+10,width:bw,height:24,fill:col,rx:3}));
+    g.appendChild(tx(LW+bw+14,y+28,C.out(t),halo({'font-size':19,'font-weight':600,fill:INK})));
+    var hit=el('rect',{x:0,y:y,width:W,height:rowH,fill:'transparent',style:'cursor:pointer'});
+    hov(hit,Ttipos,'<b>'+t[0]+'</b>Inversión '+sol(t[1],2)+' · '+fmt(t[1]/tot*100,1)+' %<br>'+fmt(t[2])+' conversaciones<br>'+sol(t[3],2)+' cada una');
+    g.appendChild(hit);fade(g,i,70);svg.appendChild(g);
+  });
+  if(tipoSel==='costo'){
+    var xa=LW+RW*(1.99/C.max);
+    svg.appendChild(el('line',{x1:xa,x2:xa,y1:TOP-8,y2:bottom-4,stroke:GOLD,'stroke-width':1.4,'stroke-dasharray':'5 4'}));
+    svg.appendChild(tx(xa,bottom+40,'promedio S/ 1.99',{'text-anchor':'middle','font-size':13.5,'font-weight':600,fill:GOLD}));
+  }
+}
+
+/* 03 · letrero */
+var Tletrero;
+function letrero(){
+  var svg=document.getElementById('letrero');svg.innerHTML='';
+  var W=1180,H=560,L=84,R=40,T=52,B=90,iw=W-L-R,ih=H-T-B;
+  var xmax=17,ticks=[0.5,1,2,5,10,20],lmin=Math.log(0.33),lmax=Math.log(28);
+  function X(c){return L+iw*(c/xmax);}
+  function Y(v){return T+ih-ih*((Math.log(v)-lmin)/(lmax-lmin));}
+  svg.appendChild(el('rect',{x:X(6),y:Y(2),width:X(17)-X(6),height:(T+ih)-Y(2),fill:GOLDBG}));
+  svg.appendChild(tx(X(16.8),Y(2)+24,'ZONA IDEAL · MUCHO INTERÉS, BAJO COSTO',{'text-anchor':'end','font-size':12.5,'font-weight':600,'letter-spacing':1.5,fill:GOLD}));
+  ticks.forEach(function(t){
+    var y=Y(t);
+    svg.appendChild(el('line',{x1:L,x2:L+iw,y1:y,y2:y,stroke:LINE,'stroke-width':1}));
+    svg.appendChild(tx(L-14,y+5,'S/ '+(t<1?'0.50':fmt(t)),{'text-anchor':'end','font-size':14,fill:SEC}));
+  });
+  [0,4,8,12,16].forEach(function(c){
+    svg.appendChild(el('line',{x1:X(c),x2:X(c),y1:T+ih,y2:T+ih+6,stroke:SEC,'stroke-width':1}));
+    svg.appendChild(tx(X(c),T+ih+28,c+' %',{'text-anchor':'middle','font-size':14,fill:SEC}));
+  });
+  svg.appendChild(el('line',{x1:L,x2:L+iw,y1:T+ih,y2:T+ih,stroke:INK,'stroke-width':1}));
+  axisLabel(svg,L,H-16,'CTR · DE CADA 100 QUE VIERON EL AVISO, CUÁNTOS HICIERON CLIC  →');
+  axisLabel(svg,L,T-26,'SOLES POR CONVERSACIÓN · MÁS ARRIBA, MÁS CARO ↑');
+  var pts=LETRERO.map(function(d){return [X(d[1]),Y(d[2])];}).sort(function(a,b){return a[0]-b[0];});
+  svg.appendChild(el('polyline',{points:pts.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' '),fill:'none',stroke:FAINT,'stroke-width':1.4,'stroke-dasharray':'5 5'}));
+  var OFF=[[-24,'end',-46],[-22,'end',30],[22,'start',26],[22,'start',-34],[22,'start',-6]];
+  LETRERO.forEach(function(d,i){
+    var x=X(d[1]),y=Y(d[2]),col=d[3]?GOLD:INK,g=el('g'),o=OFF[i];
+    g.appendChild(el('circle',{cx:x,cy:y,r:10.5,fill:col,stroke:'#fff','stroke-width':2}));
+    var lx=x+o[0],ly=y+o[2];
+    g.appendChild(tx(lx,ly,sol(d[2],2),halo({'font-size':21,'font-weight':600,fill:col,'text-anchor':o[1]})));
+    g.appendChild(tx(lx,ly+21,d[0],halo({'font-size':15,fill:INK,'text-anchor':o[1]})));
+    g.appendChild(tx(lx,ly+40,d[4]+' · CTR '+fmt(d[1],2)+' %',halo({'font-size':13.5,fill:SEC,'text-anchor':o[1]})));
+    var hit=el('circle',{cx:x,cy:y,r:28,fill:'transparent',style:'cursor:pointer'});
+    hov(hit,Tletrero,'<b>'+d[0]+'</b>'+d[4]+'<br>CTR: '+fmt(d[1],2)+' de cada 100 hicieron clic<br>'+sol(d[2],2)+' por conversación');
+    g.appendChild(hit);fade(g,i,120);svg.appendChild(g);
+  });
+}
+
+/* 04 · mes a mes en dos paneles */
+var lineaSel='costo',Tmeses;
+var MM={
+ costo:{i:3,max:9,ticks:[0,3,6,9],f:function(v){return 'S/ '+fmt(v);},titulo:'COSTO POR CONVERSACIÓN · S/',avg:1.99,avgLab:'S/ 1.99',
+   marks:[[16,'S/ 1.19','el mejor mes',GOLD],[14,'S/ 7.65','el mes más alto',INK]],
+   lee:'Más abajo es mejor: cada conversación costó menos.'},
+ conv:{i:2,max:1000,ticks:[0,250,500,750,1000],f:function(v){return fmt(v);},titulo:'CONVERSACIONES DEL MES',avg:202.6,avgLab:'203 al mes',
+   marks:[[9,'697','el mes con más conversaciones',GOLD],[16,'585','el segundo mejor mes',INK]],
+   lee:'Más arriba es mejor: más personas escribieron ese mes.'},
+ ctr:{i:4,max:12,ticks:[0,3,6,9,12],f:function(v){return fmt(v)+' %';},titulo:'CTR · DE CADA 100 QUE VIERON EL AVISO, CUÁNTOS HICIERON CLIC',avg:5.46,avgLab:'5.46 %',
+   marks:[[4,'9.83 %','el mayor interés',GOLD],[15,'2.06 %','el menor interés',INK]],
+   lee:'Más arriba es mejor: el aviso despertó más interés.'}
+};
+function meses(){
+  var svg=document.getElementById('meses');svg.innerHTML='';
+  var cfg=MM[lineaSel];
+  var W=1180,L=90,R=132,iw=W-L-R,n=MESES.length,slot=iw/n,bw=Math.min(34,slot*0.54);
+  var T1=118,H1=190,T2=T1+H1+92,H2=240,BOT=T2+H2;
+  var ET=[[0,4,'Arranque','S/ 2.69 por conversación'],[4,11,'Mejor tramo','S/ 1.69 por conversación'],[11,18,'Etapa reciente','S/ 2.30 por conversación']];
+  ET.forEach(function(e,i){
+    var x0=L+slot*e[0],x1=L+slot*e[1];
+    if(i===1){svg.appendChild(el('rect',{x:x0,y:T1,width:x1-x0,height:H1,fill:GOLDBG}));svg.appendChild(el('rect',{x:x0,y:T2,width:x1-x0,height:H2,fill:GOLDBG}));}
+    svg.appendChild(el('line',{x1:x0,x2:x0,y1:10,y2:BOT,stroke:LINE,'stroke-width':1}));
+    svg.appendChild(tx(x0+12,34,e[2],{'font-size':16.5,'font-weight':600,fill:i===1?GOLD:INK}));
+    svg.appendChild(tx(x0+12,57,e[3],{'font-size':14,fill:SEC}));
+  });
+  svg.appendChild(el('line',{x1:L+iw,x2:L+iw,y1:10,y2:BOT,stroke:LINE,'stroke-width':1}));
+
+  /* panel superior: inversión */
+  axisLabel(svg,L,T1-18,'INVERSIÓN DEL MES · S/');
+  [0,400,800,1200].forEach(function(v){
+    var y=T1+H1-H1*(v/1200);
+    svg.appendChild(el('line',{x1:L,x2:L+iw,y1:y,y2:y,stroke:v===0?FAINT:LINE,'stroke-width':1}));
+    svg.appendChild(tx(L-12,y+5,fmt(v),{'text-anchor':'end','font-size':14,fill:SEC}));
+  });
+  MESES.forEach(function(m,i){
+    var cx=L+slot*i+slot/2,h=H1*(m[1]/1200),pk=(i===9);
+    svg.appendChild(el('rect',{x:cx-bw/2,y:T1+H1-h,width:bw,height:h,fill:(i>=4&&i<11)?GOLDMID:BAR,rx:2}));
+    svg.appendChild(tx(cx,T1+H1-h-8,fmt(m[1],0),halo({'text-anchor':'middle','font-size':pk?14:12.5,'font-weight':pk?700:500,fill:pk?INK:SEC})));
+  });
+
+  /* panel inferior: métrica elegida */
+  axisLabel(svg,L,T2-18,cfg.titulo);
+  cfg.ticks.forEach(function(v){
+    var y=T2+H2-H2*(v/cfg.max);
+    svg.appendChild(el('line',{x1:L,x2:L+iw,y1:y,y2:y,stroke:v===0?FAINT:LINE,'stroke-width':1}));
+    svg.appendChild(tx(L-12,y+5,cfg.f(v),{'text-anchor':'end','font-size':14,fill:SEC}));
+  });
+  var ya=T2+H2-H2*(cfg.avg/cfg.max);
+  svg.appendChild(el('line',{x1:L,x2:L+iw+6,y1:ya,y2:ya,stroke:GOLD,'stroke-width':1.4,'stroke-dasharray':'6 5'}));
+  svg.appendChild(tx(L+iw+14,ya-3,'promedio',{'font-size':13,fill:GOLD}));
+  svg.appendChild(tx(L+iw+14,ya+15,cfg.avgLab,{'font-size':15,'font-weight':600,fill:GOLD}));
+  var pts=MESES.map(function(m,i){return [L+slot*i+slot/2,T2+H2-H2*(m[cfg.i]/cfg.max)];});
+  svg.appendChild(el('polyline',{points:pts.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1);}).join(' '),fill:'none',stroke:INK,'stroke-width':2.6,'stroke-linejoin':'round'}));
+  pts.forEach(function(p){svg.appendChild(el('circle',{cx:p[0],cy:p[1],r:4.8,fill:'#fff',stroke:INK,'stroke-width':2.2}));});
+  var marcados={};cfg.marks.forEach(function(mk){marcados[mk[0]]=1;});
+  pts.forEach(function(p,i){
+    if(marcados[i])return;
+    var nb=[];if(i>0)nb.push(pts[i-1][1]);if(i<n-1)nb.push(pts[i+1][1]);
+    var media=0;nb.forEach(function(v){media+=v;});media/=nb.length;
+    var arriba=(p[1]<=media);
+    if(!arriba&&p[1]+22>BOT-2)arriba=true;
+    if(arriba&&p[1]-12<T2+6)arriba=false;
+    var v=MESES[i][cfg.i];
+    var s=(lineaSel==='costo')?fmt(v,2):(lineaSel==='conv')?fmt(v):fmt(v,2)+' %';
+    svg.appendChild(tx(p[0],arriba?p[1]-12:p[1]+22,s,halo({'text-anchor':'middle','font-size':12.5,'font-weight':500,fill:INK})));
+  });
+  cfg.marks.forEach(function(mk){
+    var j=mk[0],p=pts[j],a=pts[j-1],b=pts[j+1];
+    svg.appendChild(el('circle',{cx:p[0],cy:p[1],r:7,fill:mk[3],stroke:'#fff','stroke-width':2}));
+    if(p[1]<a[1]&&p[1]<b[1]){
+      svg.appendChild(tx(p[0],p[1]-32,mk[1],halo({'text-anchor':'middle','font-size':16.5,'font-weight':600,fill:mk[3]})));
+      svg.appendChild(tx(p[0],p[1]-14,mk[2],halo({'text-anchor':'middle','font-size':13.5,fill:SEC})));
+    } else {
+      var der=(Math.abs(b[1]-p[1])>=Math.abs(a[1]-p[1])),x=der?p[0]+15:p[0]-15,anc=der?'start':'end';
+      svg.appendChild(tx(x,p[1]-1,mk[1],halo({'text-anchor':anc,'font-size':16.5,'font-weight':600,fill:mk[3]})));
+      svg.appendChild(tx(x,p[1]+17,mk[2],halo({'text-anchor':anc,'font-size':13.5,fill:SEC})));
+    }
+  });
+  MESES.forEach(function(m,i){
+    var cx=L+slot*i+slot/2;
+    svg.appendChild(el('line',{x1:cx,x2:cx,y1:BOT,y2:BOT+6,stroke:SEC,'stroke-width':1}));
+    var mm=m[0].split(' ');
+    svg.appendChild(tx(cx,BOT+24,mm[0],{'text-anchor':'middle','font-size':13,fill:INK,'font-weight':500}));
+    svg.appendChild(tx(cx,BOT+41,mm[1],{'text-anchor':'middle','font-size':12,fill:SEC}));
+  });
+  svg.appendChild(tx(L,BOT+72,'Septiembre de 2026 cubre del 1 al 17. La inversión de la serie suma S/ 7 238.36 y las conversaciones, 3 646.',{'font-size':13.5,fill:SEC}));
+  var guide=el('line',{x1:0,x2:0,y1:T1,y2:BOT,stroke:INK,'stroke-width':1,opacity:0});svg.appendChild(guide);
+  MESES.forEach(function(m,i){
+    var cx=L+slot*i+slot/2;
+    var hit=el('rect',{x:L+slot*i,y:T1,width:slot,height:BOT-T1,fill:'transparent',style:'cursor:pointer'});
+    function wrap(k,s){return (lineaSel===k?'<span class="hl">':'')+s+(lineaSel===k?'</span>':'');}
+    hov(hit,Tmeses,function(){return '<b>'+m[0]+'</b>Inversión: '+sol(m[1],2)+'<br>'+wrap('conv','Conversaciones: '+fmt(m[2]))+'<br>'+wrap('costo','Costo por conversación: '+sol(m[3],2))+'<br>'+wrap('ctr','CTR: '+fmt(m[4],2)+' %');},
+      function(){guide.setAttribute('x1',cx);guide.setAttribute('x2',cx);guide.setAttribute('opacity',.22);},
+      function(){guide.setAttribute('opacity',0);});
+    svg.appendChild(hit);
+  });
+  document.getElementById('lee-meses').textContent='Son dos gráficos con los mismos meses, cada uno con su propia escala; lo que está en la misma columna vertical es el mismo mes. '+cfg.lee+' La línea punteada dorada es el promedio de los dieciocho meses.';
+}
+
+/* 05 · horas */
+var Thoras;
+function horas(){
+  var svg=document.getElementById('horas');svg.innerHTML='';
+  var W=1180,H=400,L=58,R=24,T=78,B=78,iw=W-L-R,ih=H-T-B;
+  var n=24,slot=iw/n,bw=slot*0.6,max=66;
+  svg.appendChild(el('rect',{x:L,y:T,width:slot*9,height:ih,fill:SOFT}));
+  svg.appendChild(el('rect',{x:L+slot*19,y:T,width:slot*5,height:ih,fill:SOFT}));
+  svg.appendChild(tx(L+slot*4.5,T-14,'12am a 9am',{'text-anchor':'middle','font-size':14,fill:SEC}));
+  svg.appendChild(tx(L+slot*21.5,T-14,'7pm a 12am',{'text-anchor':'middle','font-size':14,fill:SEC}));
+  axisLabel(svg,L,T-48,'CONVERSACIONES POR HORA · 45 % LLEGA EN LAS FRANJAS GRISES');
+  [0,20,40,60].forEach(function(v){
+    var y=T+ih-ih*(v/max);
+    svg.appendChild(el('line',{x1:L,x2:L+iw,y1:y,y2:y,stroke:v===0?FAINT:LINE,'stroke-width':1}));
+    svg.appendChild(tx(L-12,y+5,v,{'text-anchor':'end','font-size':14,fill:SEC}));
+  });
+  HORAS.forEach(function(h,i){
+    var cx=L+slot*i+slot/2,bh=ih*(h[1]/max),col=(i===20)?GOLD:(h[1]>=42)?INK:BAR;
+    svg.appendChild(el('rect',{x:cx-bw/2,y:T+ih-bh,width:bw,height:bh,fill:col,rx:2}));
+    if(i!==20)svg.appendChild(tx(cx,T+ih-bh-8,h[1],{'text-anchor':'middle','font-size':12.5,'font-weight':500,fill:(h[1]>=42)?INK:SEC}));
+    svg.appendChild(tx(cx,T+ih+24,h[0],{'text-anchor':'middle','font-size':12.5,fill:(i>=19||i<=8)?SEC:INK}));
+    var hit=el('rect',{x:L+slot*i,y:T,width:slot,height:ih,fill:'transparent',style:'cursor:pointer'});
+    hov(hit,Thoras,'<b>'+h[0]+'</b>'+h[1]+' conversaciones en 90 días<br>'+sol(h[2],2)+' cada una');
+    svg.appendChild(hit);
+  });
+  var px=L+slot*20.5,py=T+ih-ih*(57/max);
+  svg.appendChild(tx(px,py-12,'57 · 8pm',halo({'text-anchor':'middle','font-size':16,'font-weight':600,fill:GOLD})));
+  svg.appendChild(tx(L,H-10,'Hora de Lima · últimos 90 días · 746 conversaciones',{'font-size':13.5,fill:SEC}));
+}
+
+/* 05b · edades */
+var Tedades;
+function edades(){
+  var svg=document.getElementById('edades');svg.innerHTML='';
+  var W=1180,T=40,rowH=38,LW=150,RW=W-LW-250,max=260;
+  axisLabel(svg,LW,18,'CONVERSACIONES EN 90 DÍAS');
+  EDADES.forEach(function(e,i){
+    var y=T+i*rowH,bw=Math.max(2,RW*(e[2]/max)),hi=(i===2||i===3);
+    svg.appendChild(tx(0,y+20,e[0]+' años',{'font-size':16,'font-weight':hi?600:400,fill:hi?INK:SEC}));
+    svg.appendChild(el('rect',{x:LW,y:y+6,width:bw,height:20,fill:hi?INK:BAR,rx:3}));
+    svg.appendChild(tx(LW+bw+14,y+21,fmt(e[2])+' conversaciones · '+sol(e[1]/e[2],2)+' c/u',{'font-size':15,'font-weight':500,fill:INK}));
+    var hit=el('rect',{x:0,y:y,width:W,height:rowH,fill:'transparent',style:'cursor:pointer'});
+    hov(hit,Tedades,'<b>'+e[0]+' años</b>'+e[2]+' conversaciones<br>Inversión '+sol(e[1],2)+'<br>'+sol(e[1]/e[2],2)+' cada una');
+    svg.appendChild(hit);
+  });
+  svg.appendChild(el('line',{x1:0,x2:W,y1:T+6*rowH+6,y2:T+6*rowH+6,stroke:LINE,'stroke-width':1}));
+  svg.appendChild(tx(0,T+6*rowH+34,'35 a 54 años: 54 % de la inversión y 56 % de las conversaciones',{'font-size':14,'font-weight':500,fill:SEC}));
+}
+
+/* 06 · embudo */
+var Tembudo;
+function embudo(){
+  var svg=document.getElementById('embudo');svg.innerHTML='';
+  var W=1180,T=12,rowH=94,BARX=450,BARW=W-BARX-130,tot=EMB[0][1];
+  EMB.forEach(function(e,i){
+    var y=T+i*rowH,bw=BARW*(e[1]/tot),hi=(i===2),g=el('g');
+    g.appendChild(tx(0,y+32,e[0],{'font-size':19.5,'font-weight':hi?600:500,fill:INK}));
+    g.appendChild(tx(0,y+54,fmt(e[1]/tot*100,0)+' de cada 100 personas',{'font-size':15,fill:SEC}));
+    g.appendChild(tx(0,y+74,e[2],{'font-size':13,fill:SEC,'font-family':'ui-monospace, Menlo, monospace'}));
+    g.appendChild(el('rect',{x:BARX,y:y+14,width:bw,height:40,fill:hi?GOLD:(i===0?INK:BAR),rx:3}));
+    if(hi){
+      g.appendChild(tx(BARX+bw-14,y+41,fmt(e[1]),{'font-size':22,'font-weight':600,fill:'#fff','text-anchor':'end'}));
+      var bwPrev=BARW*(EMB[1][1]/tot);
+      g.appendChild(el('rect',{x:BARX+bw,y:y+14,width:bwPrev-bw,height:40,fill:'#fff',stroke:GOLD,'stroke-width':1.5,'stroke-dasharray':'5 4',rx:3}));
+      g.appendChild(tx(BARX+bw+(bwPrev-bw)/2,y+40,'2 062 por continuar',{'text-anchor':'middle','font-size':15.5,'font-weight':600,fill:GOLD}));
+      g.appendChild(tx(BARX+bw+(bwPrev-bw)/2,y+76,'espacio para crecer',{'text-anchor':'middle','font-size':14,fill:SEC}));
+    } else {
+      g.appendChild(tx(BARX+bw+16,y+42,fmt(e[1]),{'font-size':24,'font-weight':600,fill:INK}));
+    }
+    var hit=el('rect',{x:0,y:y,width:W,height:rowH,fill:'transparent',style:'cursor:pointer'});
+    hov(hit,Tembudo,'<b>'+e[0]+'</b>'+fmt(e[1])+' personas<br>'+fmt(e[1]/tot*100,1)+' % de quienes abrieron un chat');
+    g.appendChild(hit);fade(g,i,120);svg.appendChild(g);
+  });
+  svg.appendChild(el('line',{x1:0,x2:W,y1:T+4*rowH+2,y2:T+4*rowH+2,stroke:LINE,'stroke-width':1}));
+  svg.appendChild(tx(0,T+4*rowH+30,'Acumulado de los dieciocho meses · las barras están a escala del total de chats abiertos',{'font-size':14,fill:SEC}));
+}
+
+/* 08 · campañas */
+var Tdup;
+function dup(){
+  var svg=document.getElementById('dup');svg.innerHTML='';
+  var W=1180,S=24,G=6,GG=18,x=0,y=40;
+  axisLabel(svg,0,20,'11 GRUPOS CON NOMBRE REPETIDO · 25 CAMPAÑAS · S/ 1 195.87');
+  GRUPOS.forEach(function(g){
+    if(x+g[1]*(S+G)>W){x=0;y+=S+G+12;}
+    for(var k=0;k<g[1];k++){
+      var r=el('rect',{x:x,y:y,width:S,height:S,rx:3,fill:GOLDBG,stroke:GOLD,'stroke-width':1.5,'stroke-dasharray':'3 2',style:'cursor:pointer'});
+      hov(r,Tdup,'<b>'+g[0]+'</b>'+g[1]+' campañas con este nombre<br>'+sol(g[2],2)+' · '+g[3]+' conversaciones');
+      svg.appendChild(r);x+=S+G;
+    }
+    x+=GG;
+  });
+  x=0;y+=S+G+46;
+  axisLabel(svg,0,y-14,'LAS OTRAS 69 CAMPAÑAS DE 2026');
+  for(var i=0;i<69;i++){
+    svg.appendChild(el('rect',{x:x,y:y,width:S,height:S,rx:3,fill:'#fff',stroke:FAINT,'stroke-width':1.3}));
+    x+=S+G;if(x>W-S){x=0;y+=S+G;}
+  }
+}
+
+/* código */
+var AG=document.getElementById('sku-ag');
+for(var k2=1;k2<=17;k2++){var o=document.createElement('option'),cd='A'+((k2<10)?'0':'')+k2;o.value=cd;o.textContent=cd;if(k2===7)o.selected=true;AG.appendChild(o);}
+function sku(){
+  var p=parseInt(document.getElementById('sku-prop').value,10);if(isNaN(p)||p<1)p=1;
+  document.getElementById('sku-code').textContent=document.getElementById('sku-op').value+'-'+document.getElementById('sku-tipo').value+'-P'+p+'-'+AG.value;
+}
+['sku-op','sku-tipo','sku-prop','sku-ag'].forEach(function(id){var e=document.getElementById(id);e.addEventListener('change',sku);e.addEventListener('input',sku);});
+
+/* botones de vista */
+function segGroup(attr,fn){
+  var bs=document.querySelectorAll('['+attr+']');
+  for(var i=0;i<bs.length;i++){bs[i].addEventListener('click',function(){
+    for(var j=0;j<bs.length;j++)bs[j].setAttribute('aria-pressed','false');
+    this.setAttribute('aria-pressed','true');fn(this.getAttribute(attr));});}
+}
+segGroup('data-tipo',function(v){tipoSel=v;if(Ttipos)tipos();});
+segGroup('data-linea',function(v){lineaSel=v;if(Tmeses)meses();});
+
+/* aparición y dibujo */
+var DRAW={'wrap-cadena':cadena,
+ 'wrap-tipos':function(){Ttipos=Tip('tip-tipos');tipos();},
+ 'wrap-letrero':function(){Tletrero=Tip('tip-letrero');letrero();},
+ 'wrap-meses':function(){Tmeses=Tip('tip-meses');meses();},
+ 'wrap-horas':function(){Thoras=Tip('tip-horas');horas();},
+ 'wrap-edades':function(){Tedades=Tip('tip-edades');edades();},
+ 'wrap-embudo':function(){Tembudo=Tip('tip-embudo');embudo();},
+ 'wrap-dup':function(){Tdup=Tip('tip-dup');dup();}};
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting)return;
+    e.target.classList.add('in');
+    if(DRAW[e.target.id])DRAW[e.target.id]();
+    io.unobserve(e.target);
+  });
+},{threshold:.08});
+var rvs=document.querySelectorAll('.rv');
+for(var r=0;r<rvs.length;r++)io.observe(rvs[r]);
+sku();
+})();
+</script>
+</body>
+</html>
